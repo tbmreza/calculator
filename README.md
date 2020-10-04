@@ -1,3 +1,3 @@
-## prefix-expression-calculator
+## calculator
 
-Not tested yet but mostly done.
+Not tested properly but mostly done.
