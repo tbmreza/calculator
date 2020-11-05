@@ -35,6 +35,7 @@ impl Scanner {
 }
 
 pub fn convert(infix_expression: &str) -> Result<String, Box<dyn std::error::Error>> {
+    // process in Tokens, return String
     let input: Vec<char> = infix_expression.chars().collect();
     let mut _scanner = Scanner(input);
     // let mut _scanner = crate::scanner::Scanner(input);

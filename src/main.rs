@@ -1,21 +1,10 @@
 mod infix_to_prefix;
 mod scanner;
+mod enum_types;
 
 use std::collections::VecDeque;
-#[derive(Debug, Copy, Clone, std::cmp::PartialEq)]
-enum Token {
-    Op(Operator),
-    Digit(i32),
-}
+use enum_types::{Token, Operator};
 
-#[derive(Debug, Copy, Clone, std::cmp::PartialEq)]
-enum Operator {
-    Add,
-    Subtract,
-    Multiply,
-    Divide,
-    Exp,
-}
 fn is_op_token(t: Token) -> bool {
     match t {
         Token::Op(_) => true,
