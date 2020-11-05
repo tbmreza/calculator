@@ -23,8 +23,8 @@ fn precedence(c: char) -> u32 {
 }
 
 // fn precedence2(c: char) -> Result<u32, E> {}
-struct Lexer(Vec<char>);
-impl Lexer {
+struct Scanner(Vec<char>);
+impl Scanner {
     fn advance(&mut self) -> Result<char, &'static str> {
         if let Some(c) = self.0.pop() {
             Ok(c)
@@ -36,12 +36,12 @@ impl Lexer {
 
 pub fn convert(infix_expression: &str) -> Result<String, Box<dyn std::error::Error>> {
     let input: Vec<char> = infix_expression.chars().collect();
-    let mut lexer = Lexer(input);
-    // let mut lexer = crate::scanner::Scanner(input);
+    let mut _scanner = Scanner(input);
+    // let mut _scanner = crate::scanner::Scanner(input);
     let mut stack: Vec<char> = vec![];
     let mut processed: Vec<char> = vec![];
-    while lexer.0.len() > 0 {
-        let c = lexer.advance().unwrap();
+    while _scanner.0.len() > 0 {
+        let c = _scanner.advance().unwrap();
         match part(c) {
             Part::Whitespace => continue,
             Part::Number => {

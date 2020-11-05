@@ -43,11 +43,11 @@ fn is_numeric(c: char) -> bool {
 fn tokenize(source: &str) -> Result<Vec<Token>, Box<dyn std::error::Error>> {
     let mut tokens: Vec<Token> = vec![];
     let source: VecDeque<char> = source.chars().collect(); // deque for Scanner pop_front()
-    let mut lex: scanner::Scanner = scanner::Scanner(source);
+    let mut _scanner: scanner::Scanner = scanner::Scanner(source);
     let mut num_literal = "".to_string();
-    while lex.0.len() > 0 {
-        let p = lex.peek();
-        let c = lex.advance().unwrap();
+    while _scanner.0.len() > 0 {
+        let p = _scanner.peek();
+        let c = _scanner.advance().unwrap();
         match c {
             ' ' => {}
             '+' => tokens.push(Token::Op(Operator::Add)),
