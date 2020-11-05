@@ -1,3 +1,5 @@
+use std::collections::VecDeque;
+
 enum Part {
     Operator,
     Number,
@@ -23,29 +25,55 @@ fn precedence(c: char) -> u32 {
 }
 
 // fn precedence2(c: char) -> Result<u32, E> {}
-struct Scanner(Vec<char>);
-impl Scanner {
-    fn advance(&mut self) -> Result<char, &'static str> {
-        if let Some(c) = self.0.pop() {
-            Ok(c)
-        } else {
-            Err("end of source")
+pub fn convert2(infix_expression: &str) -> Result<String, Box<dyn std::error::Error>> {
+    
+    let input: VecDeque<char> = infix_expression.chars().collect();
+    let mut _scanner = crate::scanner::Scanner(input);
+    let mut stack: Vec<char> = vec![];
+    let mut processed: Vec<char> = vec![];
+    while _scanner.0.len() > 0 {
+        let c = _scanner.advance_from_back().unwrap();
+        match part(c) {
+            Part::Whitespace => continue,
+            Part::Number => {
+                processed.push(c);
+                processed.push(' ');
+            }
+            Part::Operator => {
+                if stack.len() == 0 {
+                    stack.push(c);
+                    continue;
+                }
+                let stack_top = stack.clone().pop().unwrap();
+                if precedence(c) < precedence(stack_top) {
+                    processed.push(stack.pop().unwrap());
+                    processed.push(' ');
+                    stack.push(c);
+                } else {
+                    stack.push(c);
+                }
+            }
         }
     }
-}
-pub fn convert2(infix_expression: &str) -> Result<String, Box<dyn std::error::Error>> {
-    println!("{}", infix_expression);
+    while stack.len() > 1 {
+        processed.push(stack.pop().unwrap());
+        processed.push(' ');
+    }
+    if stack.len() == 1 {
+        processed.push(stack.pop().unwrap());
+    }
+
+    let prefix_expression: String = processed.into_iter().rev().collect();
     Ok("+ 12 34".to_string())
 }
 pub fn convert(infix_expression: &str) -> Result<String, Box<dyn std::error::Error>> {
     // Process in Tokens, return String.
-    let input: Vec<char> = infix_expression.chars().collect();
-    let mut _scanner = Scanner(input);
-    // let mut _scanner = crate::scanner::Scanner(input);
+    let input: VecDeque<char> = infix_expression.chars().collect();
+    let mut _scanner = crate::scanner::Scanner(input);
     let mut stack: Vec<char> = vec![];
     let mut processed: Vec<char> = vec![];
     while _scanner.0.len() > 0 {
-        let c = _scanner.advance().unwrap();
+        let c = _scanner.advance_from_back().unwrap();
         match part(c) {
             Part::Whitespace => continue,
             Part::Number => {

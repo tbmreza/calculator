@@ -36,7 +36,7 @@ fn tokenize(source: &str) -> Result<Vec<Token>, Box<dyn std::error::Error>> {
     let mut num_literal = "".to_string();
     while _scanner.0.len() > 0 {
         let p = _scanner.peek();
-        let c = _scanner.advance().unwrap();
+        let c = _scanner.advance_from_front().unwrap();
         match c {
             ' ' => {}
             '+' => tokens.push(Token::Op(Operator::Add)),
@@ -131,7 +131,7 @@ fn test_example() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn test_convert2() -> Result<(), Box<dyn std::error::Error>> {
-    assert_eq!(infix_to_prefix::convert2("12 + 34")?, "+ 12 34");
+    assert_eq!(infix_to_prefix::convert2("12 + 34")?, "+ 12 34".to_string());
     Ok(())
 }
 
