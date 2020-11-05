@@ -1,5 +1,4 @@
 use std::collections::VecDeque;
-use crate::enum_types::{Token, Operator};
 
 enum Part {
     Operator,
@@ -25,18 +24,17 @@ fn precedence(c: char) -> u32 {
     }
 }
 
-
 pub fn convert(infix_expression: &str) -> Result<String, Box<dyn std::error::Error>> {
     let input: VecDeque<char> = infix_expression.chars().collect();
     let mut _scanner = crate::scanner::Scanner(input);
     let mut stack: Vec<char> = vec![];
     let mut processed: Vec<char> = vec![];
+    
     while _scanner.0.len() > 0 {
         let c = _scanner.advance_from_back().unwrap();
         match part(c) {
             Part::Whitespace => continue,
             Part::Number => {
-                // processed.push(' ');
                 processed.push(c);
             }
             Part::Operator => {

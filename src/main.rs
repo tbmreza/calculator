@@ -32,7 +32,7 @@ fn is_numeric(c: char) -> bool {
 fn tokenize(source: &str) -> Result<Vec<Token>, Box<dyn std::error::Error>> {
     let mut tokens: Vec<Token> = vec![];
     let source: VecDeque<char> = source.chars().collect(); // deque for Scanner pop_front()
-    let mut _scanner: scanner::Scanner = scanner::Scanner(source);
+    let mut _scanner = scanner::Scanner(source);
     let mut num_literal = "".to_string();
     while _scanner.0.len() > 0 {
         let p = _scanner.peek();
@@ -91,7 +91,6 @@ impl Expr {
 
 fn calc(source: &str) -> Result<i32, Box<dyn std::error::Error>> {
     let prefix_expr = infix_to_prefix::convert(source)?;
-    // let prefix_expr = "".to_string();
     let tokens = tokenize(&prefix_expr)?;
     Ok(Expr(tokens).solve())
 }
@@ -105,7 +104,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn test_example() -> Result<(), Box<dyn std::error::Error>> {
     assert_eq!(calc("1 + 2 + 3")?, 6);
     assert_eq!(calc("3 * 5 / 5 - 3")?, 0);
-    // assert_eq!(calc("123 * 10")?, 1230);
+    assert_eq!(calc("123 * 10")?, 1230);
     Ok(())
 }
 #[test]
@@ -119,8 +118,8 @@ fn test_tokenize() -> Result<(), Box<dyn std::error::Error>> {
 fn test_single() -> Result<(), Box<dyn std::error::Error>> {
     assert_eq!(calc("0")?, 0);
     assert_eq!(calc("9")?, 9);
-    // assert_eq!(calc("12")?, 12);
-    // assert_eq!(calc("9090")?, 9090);
+    assert_eq!(calc("12")?, 12);
+    assert_eq!(calc("9090")?, 9090);
     Ok(())
 }
 #[test]
@@ -134,6 +133,3 @@ fn test_convert() -> Result<(), Box<dyn std::error::Error>> {
     assert_eq!(infix_to_prefix::convert("12 + 34 + 56")?, "+ +12 34 56".to_string());
     Ok(())
 }
-
-
-// TODO: refactor infix_to_prefix::convert() to be like tokenize()
