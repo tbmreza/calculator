@@ -108,33 +108,32 @@ fn test_example() -> Result<(), Box<dyn std::error::Error>> {
     // assert_eq!(calc("123 * 10")?, 1230);
     Ok(())
 }
-// #[test]
-// fn test_tokenize() -> Result<(), Box<dyn std::error::Error>> {
-//     assert_eq!(tokenize("5")?, vec![Token::Digit(5)]);
-//     assert_eq!(tokenize("25")?, vec![Token::Digit(25)]);
-//     assert_eq!(tokenize("123")?, vec![Token::Digit(123)]);
-//     Ok(())
-// }
-// #[test]
-// fn test_single() -> Result<(), Box<dyn std::error::Error>> {
-//     assert_eq!(calc("0")?, 0);
-//     assert_eq!(calc("9")?, 9);
-//     // assert_eq!(calc("12")?, 12);
-//     // assert_eq!(calc("9090")?, 9090);
-//     Ok(())
-// }
-// #[test]
-// fn test_empty() -> Result<(), Box<dyn std::error::Error>> {
-//     assert_eq!(calc("")?, 0);
-//     Ok(())
-// }
+#[test]
+fn test_tokenize() -> Result<(), Box<dyn std::error::Error>> {
+    assert_eq!(tokenize("5")?, vec![Token::Digit(5)]);
+    assert_eq!(tokenize("25")?, vec![Token::Digit(25)]);
+    assert_eq!(tokenize("123")?, vec![Token::Digit(123)]);
+    Ok(())
+}
+#[test]
+fn test_single() -> Result<(), Box<dyn std::error::Error>> {
+    assert_eq!(calc("0")?, 0);
+    assert_eq!(calc("9")?, 9);
+    // assert_eq!(calc("12")?, 12);
+    // assert_eq!(calc("9090")?, 9090);
+    Ok(())
+}
+#[test]
+fn test_empty() -> Result<(), Box<dyn std::error::Error>> {
+    assert_eq!(calc("")?, 0);
+    Ok(())
+}
 
 #[test]
-fn test_convert2() -> Result<(), Box<dyn std::error::Error>> {
-    assert_eq!(infix_to_prefix::convert2("12 + 34")?, "+ 12 34".to_string());
+fn test_convert() -> Result<(), Box<dyn std::error::Error>> {
+    assert_eq!(infix_to_prefix::convert("12 + 34 + 56")?, "+ +12 34 56".to_string());
     Ok(())
 }
 
 
-// TODO: Scanner module to be imported to main and infix_to_prefix
 // TODO: refactor infix_to_prefix::convert() to be like tokenize()
