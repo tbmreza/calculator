@@ -33,9 +33,12 @@ impl Scanner {
         }
     }
 }
-
+pub fn convert2(infix_expression: &str) -> Result<String, Box<dyn std::error::Error>> {
+    println!("{}", infix_expression);
+    Ok("+ 12 34".to_string())
+}
 pub fn convert(infix_expression: &str) -> Result<String, Box<dyn std::error::Error>> {
-    // process in Tokens, return String
+    // Process in Tokens, return String.
     let input: Vec<char> = infix_expression.chars().collect();
     let mut _scanner = Scanner(input);
     // let mut _scanner = crate::scanner::Scanner(input);
@@ -77,8 +80,3 @@ pub fn convert(infix_expression: &str) -> Result<String, Box<dyn std::error::Err
     Ok(prefix_expression)
 }
 
-// #[test]
-// fn test_convert() -> Result<(), Box<dyn std::error::Error>> {
-//     assert_eq!(convert("12 + 34")?, "+ 12 34");
-//     Ok(())
-// }
