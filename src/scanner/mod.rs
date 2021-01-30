@@ -15,7 +15,7 @@ impl Scanner {
         } else {
             Err("end of source")
         }
-    }        
+    }
     pub fn peek(&self) -> Result<char, &'static str> {
         if self.0.len() > 1 {
             Ok(self.0[1])

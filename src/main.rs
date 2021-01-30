@@ -5,12 +5,6 @@ mod scanner;
 use enum_types::{Operator, Token};
 use std::collections::VecDeque;
 
-fn is_op_token(t: Token) -> bool {
-    match t {
-        Token::Op(_) => true,
-        _ => false,
-    }
-}
 fn operate(op: Token, a: Token, b: Token) -> Token {
     if let (Token::Op(op), Token::Digit(a), Token::Digit(b)) = (op, a, b) {
         match op {
@@ -26,7 +20,7 @@ fn operate(op: Token, a: Token, b: Token) -> Token {
 }
 
 fn is_numeric(c: char) -> bool {
-    "1234567890".contains(c)
+    c.is_ascii() && c.is_numeric()
 }
 
 fn tokenize(source: &str) -> Result<Vec<Token>, Box<dyn std::error::Error>> {
@@ -69,7 +63,7 @@ impl Expr {
         while tokens.len() > 1 {
             let mut last_op_index: usize = 0;
             for (i, x) in tokens.iter().enumerate() {
-                if is_op_token(*x) {
+                if let Token::Op(..) = x {
                     last_op_index = i;
                 }
             }
@@ -80,6 +74,7 @@ impl Expr {
             tokens.insert(last_op_index, operate(op, operand1, operand2));
         }
         let mut answer = 0;
+
         if tokens.len() == 1 {
             if let Token::Digit(d) = tokens[0] {
                 answer = d;
