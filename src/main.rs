@@ -3,11 +3,25 @@ mod infix_to_prefix;
 mod scanner;
 mod solver;
 
-use solver::{calc, tokenize};
+// use solver::{calc, tokenize};
+use solver::{calc};
+use std::path::PathBuf;
+
+#[derive(clap::Parser)]
+#[command(version)]
+struct Cli {
+    input: Option<String>,
+    #[arg(short, long)]
+    load: Option<PathBuf>,
+}
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let res = calc("5 * 0")?;
-    println!("\n{}", res);
+    use clap::{Parser};
+    match Cli::parse() {
+        Cli { input: Some(p), .. } => println!("{}", calc(&p)?),
+        Cli { load: Some(p), .. } => println!("{}", p.display()),
+        _ => unimplemented!()
+    }
     Ok(())
 }
 #[cfg(test)]
@@ -61,8 +75,8 @@ mod tests {
     #[test]
     fn test_convert() -> Result<(), Box<dyn std::error::Error>> {
         assert_eq!(
-            infix_to_prefix::convert("12 + 34 + 56")?,
-            "+ +12 34 56".to_string()
+            infix_to_prefix::convert("12 + 34 + 56 + 0")?,
+            "+ + +12 34 56 0".to_string()
         );
         Ok(())
     }
